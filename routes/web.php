@@ -27,7 +27,7 @@ Route::post('/store', function () {
     }
 
     // Debugging: Dump the contents of $dynamicFields
-    dd($dynamicFields);
+    // dd($dynamicFields);
 
     information::create([
         'name' => request('name'),
