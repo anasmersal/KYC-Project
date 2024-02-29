@@ -19,33 +19,39 @@ Route::get('/', function () {
     return view('form1');
 });
 
-Route::post('/store', function () {
+Route::post('/store', function (Request $request) {
+    // Retrieve the dynamic_field_counter value from the request
+    $dynamicFieldCounter = $request->input('dynamic_field_counter');
+
     $dynamicFields = [];
-    for ($i = 1; $i <= request('dynamic_field_counter'); $i++) {
-        $dynamicFields['field_name_' . $i] = request('dynamic_field_name_' . $i);
-        $dynamicFields['field_value_' . $i] = request('dynamic_field_value_' . $i);
+    for ($i = 1; $i <= $dynamicFieldCounter; $i++) {
+        $fieldName = "dynamic_field_name_$i";
+        $fieldValue = "dynamic_field_value_$i";
+
+        // Add to array regardless of existence
+        $dynamicFields[$fieldName] = $request->input($fieldValue, "");
     }
 
-    // Debugging: Dump the contents of $dynamicFields
-    // dd($dynamicFields);
+    // Convert dynamic fields to JSON
+    $dynamicFieldsJson = json_encode($dynamicFields);
 
+    // Store the form data in the database
     information::create([
-        'name' => request('name'),
-        'gender' => request('gender'),
-        'date_of_birth' => request('date_of_birth'),
-        'marital_status' => request('marital_status'),
-        'nationality' => request('nationality'),
-        'job_title' => request('job_title'),
-        'residency_status' => request('residency_status'),
-        'proofOfIdentity' => request('proofOfIdentity'),
-        'pan' => request('pan'),
-        'city' => request('city'),
-        'address' => request('address'),
-        'phoneNumber' => request('phoneNumber'),
-        'email' => request('email'),
-        'dynamic_fields' => json_encode($dynamicFields), // Convert dynamic fields array to JSON
+        'name' => $request->input('name'),
+        'gender' => $request->input('gender'),
+        'date_of_birth' => $request->input('date_of_birth'),
+        'marital_status' => $request->input('marital_status'),
+        'nationality' => $request->input('nationality'),
+        'job_title' => $request->input('job_title'),
+        'residency_status' => $request->input('residency_status'),
+        'proofOfIdentity' => $request->input('proofOfIdentity'),
+        'pan' => $request->input('pan'),
+        'city' => $request->input('city'),
+        'address' => $request->input('address'),
+        'phoneNumber' => $request->input('phoneNumber'),
+        'email' => $request->input('email'),
+        'dynamic_fields' => $dynamicFieldsJson,
     ]);
 
     return redirect('/');
 });
-
