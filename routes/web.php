@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('form1');
+    return view('form');
 });
 
 Route::post('/store', function (Request $request) {
@@ -25,12 +25,17 @@ Route::post('/store', function (Request $request) {
 
     $dynamicFields = [];
     for ($i = 1; $i <= $dynamicFieldCounter; $i++) {
-        $fieldName = "dynamic_field_name_$i";
-        $fieldValue = "dynamic_field_value_$i";
-
-        // Add to array regardless of existence
-        $dynamicFields[$fieldName] = $request->input($fieldValue, "");
+        // Retrieve the value of dynamic_field_name_${fieldCounter}
+        $fieldName = $request->input("dynamic_field_name_$i");
+        $fieldValue = $request->input("dynamic_field_value_$i");
+    
+        // Add to array if field name is not empty
+        if (!empty($fieldName)) {
+            // Assign the field value to the dynamic field name
+            $dynamicFields[$fieldName] = $fieldValue;
+        }
     }
+    
 
     // Convert dynamic fields to JSON
     $dynamicFieldsJson = json_encode($dynamicFields);
@@ -53,5 +58,13 @@ Route::post('/store', function (Request $request) {
         'dynamic_fields' => $dynamicFieldsJson,
     ]);
 
-    return redirect('/');
+    return redirect('/show');
+});
+
+Route::get('/show', function () {
+    // Retrieve data from the database
+    $informations = Information::all();
+    
+    // Pass the data to the view and return the view
+    return view('show', ['informations' => $informations]);
 });

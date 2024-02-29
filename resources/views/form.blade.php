@@ -115,15 +115,17 @@
         <input type="email" id="email" name="email" placeholder="example@example.com" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
       </div>
 
+      <!-- Dynamic field section -->
+      <div id="dynamic-fields">
+        <!-- Dynamic fields will be added here -->
+      </div>
+      
       <h2 class="text-lg font-semibold mb-4">C. Declaration</h2>
       <div class="declaration mb-4">
         <p class="text-gray-700">I hereby declare that the information provided in this form is accurate and complete. I confirm that any information is found incorrect and/or incomplete that leads to a violation of regulations may initiate legal actions, and I accept that I am the responsible party for any and all charges, penalties and violations.</p>
       </div>
 
-      <!-- Dynamic field section -->
-      <div id="dynamic-fields">
-        <!-- Dynamic fields will be added here -->
-      </div>
+
 
       <input type="hidden" id="dynamic_field_counter" name="dynamic_field_counter" value="0">
 
