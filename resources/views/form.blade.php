@@ -143,36 +143,42 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
-    $(document).ready(function() {
-      // Counter for dynamic fields
-      var fieldCounter = 0;
-  
-      // Function to generate a new dynamic field
-      function generateDynamicField() {
-        fieldCounter++;
-        var dynamicField = `
-          <div class="dynamic-field mb-4 flex flex-wrap">
-            <div class="w-full md:w-1/2 pr-4">
-              <label for="dynamic_field_name_${fieldCounter}" class="block text-gray-700 font-bold mb-2">Field Name ${fieldCounter}</label>
-              <input type="text" id="dynamic_field_name_${fieldCounter}" name="dynamic_field_name_${fieldCounter}" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-            <div class="w-full md:w-1/2">
-              <label for="dynamic_field_value_${fieldCounter}" class="block text-gray-700 font-bold mb-2 mt-2 md:mt-0">Field Value ${fieldCounter}</label>
-              <input type="text" id="dynamic_field_value_${fieldCounter}" name="dynamic_field_value_${fieldCounter}" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-          </div>
-        `;
-        $('#dynamic-fields').append(dynamicField);
-  
-        // Update the value of dynamic_field_counter
-        $('#dynamic_field_counter').val(fieldCounter);
-      }
-  
-      // Event listener for the "Add Field" button
-      $('#add-field-btn').click(function() {
-        generateDynamicField();
-      });
+$(document).ready(function() {
+  // Counter for dynamic fields
+  var fieldCounter = 0;
+
+  // Function to generate a new dynamic field
+  function generateDynamicField() {
+    fieldCounter++;
+    var dynamicField = `
+      <div id="dynamic-field-${fieldCounter}" class="dynamic-field mb-4 flex flex-wrap">
+        <div class="w-full md:w-1/2 pr-4">
+          <label for="dynamic_field_name_${fieldCounter}" class="block text-gray-700 font-bold mb-2">Field Name ${fieldCounter}</label>
+          <input type="text" id="dynamic_field_name_${fieldCounter}" name="dynamic_field_name_${fieldCounter}" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="w-full md:w-1/2">
+          <label for="dynamic_field_value_${fieldCounter}" class="block text-gray-700 font-bold mb-2 mt-2 md:mt-0">Field Value ${fieldCounter}</label>
+          <input type="text" id="dynamic_field_value_${fieldCounter}" name="dynamic_field_value_${fieldCounter}" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <button type="button" id="remove-field-btn-${fieldCounter}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer mt-4 md:mt-4">Remove Field</button>
+      </div>
+    `;
+    $('#dynamic-fields').append(dynamicField);
+
+    // Event listener for the "Remove Field" button
+    $(`#remove-field-btn-${fieldCounter}`).click(function() {
+      $(`#dynamic-field-${fieldCounter}`).remove();
     });
+
+    // Update the value of dynamic_field_counter
+    $('#dynamic_field_counter').val(fieldCounter);
+  }
+
+  // Event listener for the "Add Field" button
+  $('#add-field-btn').click(function() {
+    generateDynamicField();
+  });
+});
   </script>
   
 
